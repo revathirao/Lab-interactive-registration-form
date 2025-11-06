@@ -6,114 +6,126 @@ const confirmPassword = document.getElementById('confirmPassword');
 
 const emailError = document.getElementById('emailError');
 const userNameError = document.getElementById('usernameError');
-const passwordError  = document.getElementById('passwordError');
-const confirmPasswordError  = document.getElementById('confirmPasswordError');
- 
+const passwordError = document.getElementById('passwordError');
+const confirmPasswordError = document.getElementById('confirmPasswordError');
+
 
 // Load saved username: On page load, check if a username is saved in localStorage. If so, pre-fill the username field.window .
 
-document.addEventListener("DOMContentLoaded",function(){
-      const savedUsername = localStorage.getItem('username'); 
-      if(savedUsername){
-        userNameInput.value= savedUsername
-      }
+document.addEventListener("DOMContentLoaded", function () {
+    const savedUsername = localStorage.getItem('username');
+    if (savedUsername) {
+        userName.value = savedUsername
+    }
 })
 
+
+//Real-time validation using Constraint Validation API
+
 // Real-time validation: Add input event listeners to each field.
+// Real-time validation while typing which ensures errors appear immediately as the user types
+const inputs = [userName, email, password, confirmPassword];
 
-// Check validity using the Constraint Validation API
-function validateEmail() {
-    if (emailInput.validity.typeMismatch) {
-      emailInput.setCustomValidity('Please enter a valid email address, for example, name@example.com.');
-    } else if (emailInput.validity.valueMissing) {
-      emailInput.setCustomValidity('We need your email address to contact you!');
-    }
-    else {
-      emailInput.setCustomValidity(''); // Clear custom error if valid
-    }
-    
-    // // Display the custom message or clear it
-     emailInput.textContent = customEmailInput.validationMessage;
-     return emailInput.checkVisibility
-  }
- 
-
-    // Single validation function for all inputs
-    function validateField(input) {
-        //get the span error bu id
-        const spanError = document.getElementById(`${input.id}Error`);
-        message = "" //store the custom message
+for (let i = 0; i < inputs.length; i++) {
+    inputs[i].addEventListener("input", function () {
+        validateField(inputs[i])
+    })
+}
 
 
-        //Check validity using the Constraint Validation API  
+// Single validation function for all inputs
+function validateField(input) {
+    //get the span error bu id
+    const spanError = document.getElementById(`${input.id}Error`);
+    message = "" //store the custom message
 
-        switch (input.id) {
-            case "userName":
 
-                if (input.validity.valueMissing) {
-                    input.setCustomValidity("User Name is required field")
-                } else if (input.validity.patternMismatch) {
-                    input.setCustomValidity("Only alphabets numbers and underscores allowed")
-                } else if (input.validity.tooShort) {
-                    input.setCustomValidity("Username must be at least 5 characters.")
-                } else {
-                    input.setCustomValidity(""); // Clear custom error if valid
-                }
-                break;  
+    //Check validity using the Constraint Validation API  
+
+    switch (input.id) {
+        case "userName":
+
+            if (input.validity.valueMissing) {
+                input.setCustomValidity("User Name is required field")
+            } else if (input.validity.patternMismatch) {
+                input.setCustomValidity("Only alphabets numbers and underscores allowed")
+            } else if (input.validity.tooShort) {
+                input.setCustomValidity("Username must be at least 5 characters.")
+            } else {
+                input.setCustomValidity(""); // Clear custom error if valid
+            }
+            break;
 
         case "email":
 
-                if (email.validity.typeMismatch) {
-                    email.setCustomValidity("Please enter a valid email address, for example, name@example.com.");
-                } else if (email.validity.valueMissing) {
-                    email.setCustomValidity("We need your email address to contact you!")
-                }
-                else {
-                    email.setCustomValidity(""); // Clear custom error if valid
-                } 
-                break;   
-                
-            case "password":
+            if (email.validity.typeMismatch) {
+                email.setCustomValidity("Please enter a valid email address, for example, name@example.com.");
+            } else if (email.validity.valueMissing) {
+                email.setCustomValidity("We need your email address to contact you!")
+            }
+            else {
+                email.setCustomValidity(""); // Clear custom error if valid
+            }
+            break;
 
-                if (password.validity.typeMismatch) {
-                    password.patternMismatch("Password must include uppercase, lowercase, and a number.");
-                } else if (password.validity.valueMissing) {
-                    password.setCustomValidity("Password is a required field");
-                }
-                else {
-                    password.setCustomValidity(""); // Clear custom error if valid
-                }  
-                break;       
+        case "password":
 
-            case "confirmPassword":
+            if (password.validity.typeMismatch) {
+                password.patternMismatch("Password must include uppercase, lowercase, and a number.");
+            } else if (password.validity.valueMissing) {
+                password.setCustomValidity("Password is a required field");
+            }
+            else {
+                password.setCustomValidity(""); // Clear custom error if valid
+            }
+            break;
 
-                // Explicit check: must match password field
+        case "confirmPassword":
 
-                if (confirmPassword.value !== password.value) {
-                    confirmPassword.setCustomValidity("Passwords do not match.");
-                } else {
-                    confirmPassword.setCustomValidity('');
-                }
-                break; 
+            // Explicit check: must match password field
 
-        }
+            if (confirmPassword.value !== password.value) {
+                confirmPassword.setCustomValidity("Passwords do not match.");
+            } else {
+                confirmPassword.setCustomValidity('');
+            }
+            break;
 
-  //  Apply the custom validity message
-
- //  Display the current validation message in the corresponding <span>
-    if(spanError){
-        spanError.textContent = input.validationMessage;
-         //  Return true/false depending on field validity
-         return input.checkVisibility;
     }
- } // function ends
 
- // Real-time validation while typing
-//This ensures errors appear immediately as the user types
-  const inputs= [userName, email, password, confirmPassword];
+    //  Apply the custom validity message
 
-  for(let i=0; i<inputs.length;i++){
-    inputs[i].addEventListener("input",function(){
-        validateField( inputs[i])
-    })
-  }
+    //  Display the current validation message in the corresponding <span>
+    if (spanError) {
+        spanError.textContent = input.validationMessage;
+        //  Return true/false depending on field validity
+        return input.checkVisibility();
+    }
+} // function ends
+
+// Form submit
+customForm.addEventListener("submit", function (e) {
+
+    e.preventDefault();
+
+    //Validate all the input before submitting
+    [userName, email, password, confirmPassword].forEach(input => validateField(input));
+
+    //check if input has any error
+    // const firstInvalidField = customForm.querySelector(".invalid");
+    const firstInvalidField = [userName, email, password, confirmPassword].find(input => !input.checkValidity());
+
+    if (firstInvalidField) {
+        // Focus first invalid field
+        firstInvalidField.focus()
+    }
+    else {
+        //save username and reset the form
+        localStorage.setItem("username", userName.value );
+        alert("Registration successful!");
+        customForm.reset();
+
+    }
+
+});
+
