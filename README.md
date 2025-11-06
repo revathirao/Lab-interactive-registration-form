@@ -19,6 +19,8 @@ style.css:  Minimal CSS
 script.js: Core app logic
 README.md
 
+![alt text](image.png)
+
 Reflection
 
 1. How did event.preventDefault() help in handling form submission?

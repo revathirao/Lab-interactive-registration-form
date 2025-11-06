@@ -101,7 +101,15 @@ function validateField(input) {
 customForm.addEventListener("submit", function (e) {
     console.log("Submit handler is running! Preventing default..."); // Add this line
 
-    e.preventDefault();
+    e.preventDefault(); 
+
+    // Duplicate username check
+    const existingUsername = localStorage.getItem('username');
+    if (userName.value === existingUsername) {
+        alert("This username is already taken!");
+        userName.focus();
+        return; // Stop further processing
+    }
 
     //Validate all the input before submitting
     [userName, email, password, confirmPassword].forEach(input => validateField(input));
