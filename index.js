@@ -108,4 +108,12 @@ function validateEmail() {
     }
  } // function ends
 
-  const input= [username, email, password, confirmPassword];]
+ // Real-time validation while typing
+//This ensures errors appear immediately as the user types
+  const inputs= [userName, email, password, confirmPassword];
+
+  for(let i=0; i<inputs.length;i++){
+    inputs[i].addEventListener("input",function(){
+        validateField( inputs[i])
+    })
+  }
