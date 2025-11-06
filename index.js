@@ -4,12 +4,6 @@ const email = document.getElementById('email');
 const password = document.getElementById('password');
 const confirmPassword = document.getElementById('confirmPassword');
 
-// const emailError = document.getElementById('emailError');
-// const userNameError = document.getElementById('usernameError');
-// const passwordError = document.getElementById('passwordError');
-// const confirmPasswordError = document.getElementById('confirmPasswordError');
-
-
 // Load saved username: On page load, check if a username is saved in localStorage. If so, pre-fill the username field.window .
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -33,7 +27,7 @@ for (let i = 0; i < inputs.length; i++) {
 
 // Single validation function for all inputs
 function validateField(input) {
-   
+
     //get the span error id
     const spanError = document.getElementById(`${input.id}Error`);
     message = "" //store the custom message
@@ -71,11 +65,11 @@ function validateField(input) {
 
             if (password.validity.valueMissing) {
                 password.setCustomValidity("Password is required.");
-            }else if (password.validity.tooShort) {
+            } else if (password.validity.tooShort) {
                 password.setCustomValidity("Password must be at least 8 characters.");
-            }else if (password.validity.patternMismatch) {
+            } else if (password.validity.patternMismatch) {
                 password.setCustomValidity("Password must include uppercase, lowercase, and a number.");
-            }else {
+            } else {
                 password.setCustomValidity("");
             }
             break;
@@ -113,7 +107,7 @@ customForm.addEventListener("submit", function (e) {
     [userName, email, password, confirmPassword].forEach(input => validateField(input));
 
     //check if input has any error
-    // const firstInvalidField = customForm.querySelector(".invalid");
+    // const firstInvalidField = customForm.querySelector(".invalid");//this did not work
     const firstInvalidField = [userName, email, password, confirmPassword].find(input => !input.checkValidity());
 
     if (firstInvalidField) {
@@ -124,7 +118,7 @@ customForm.addEventListener("submit", function (e) {
     else {
         //save username and reset the form
 
-        localStorage.setItem("username", userName.value );
+        localStorage.setItem("username", userName.value);
         alert("Registration successful!");
         customForm.reset();
 

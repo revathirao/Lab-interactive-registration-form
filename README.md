@@ -12,6 +12,15 @@ Form Reset & Success Message: Displays a success alert on valid submission and r
 Challengess
 The main challenges were handling real-time validation for multiple fields and correctly displaying custom error messages beside each input.
 
+AppApp files
+
+index.html: Main HTML file
+style.css:  Minimal CSS
+script.js: Core app logic
+README.md
+
+Reflection
+
 1. How did event.preventDefault() help in handling form submission?
 
 event.preventDefault() stopped the form from automatically reloading the page when the user clicked Submit.
