@@ -4,10 +4,10 @@ const email = document.getElementById('email');
 const password = document.getElementById('password');
 const confirmPassword = document.getElementById('confirmPassword');
 
-const emailError = document.getElementById('emailError');
-const userNameError = document.getElementById('usernameError');
-const passwordError = document.getElementById('passwordError');
-const confirmPasswordError = document.getElementById('confirmPasswordError');
+// const emailError = document.getElementById('emailError');
+// const userNameError = document.getElementById('usernameError');
+// const passwordError = document.getElementById('passwordError');
+// const confirmPasswordError = document.getElementById('confirmPasswordError');
 
 
 // Load saved username: On page load, check if a username is saved in localStorage. If so, pre-fill the username field.window .
@@ -19,8 +19,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 })
 
-
-//Real-time validation using Constraint Validation API
 
 // Real-time validation: Add input event listeners to each field.
 // Real-time validation while typing which ensures errors appear immediately as the user types
@@ -35,7 +33,8 @@ for (let i = 0; i < inputs.length; i++) {
 
 // Single validation function for all inputs
 function validateField(input) {
-    //get the span error bu id
+   
+    //get the span error id
     const spanError = document.getElementById(`${input.id}Error`);
     message = "" //store the custom message
 
@@ -43,7 +42,7 @@ function validateField(input) {
     //Check validity using the Constraint Validation API  
 
     switch (input.id) {
-        case "userName":
+        case "username":
 
             if (input.validity.valueMissing) {
                 input.setCustomValidity("User Name is required field")
@@ -70,13 +69,14 @@ function validateField(input) {
 
         case "password":
 
-            if (password.validity.typeMismatch) {
-                password.patternMismatch("Password must include uppercase, lowercase, and a number.");
-            } else if (password.validity.valueMissing) {
-                password.setCustomValidity("Password is a required field");
-            }
-            else {
-                password.setCustomValidity(""); // Clear custom error if valid
+            if (password.validity.valueMissing) {
+                password.setCustomValidity("Password is required.");
+            }else if (password.validity.tooShort) {
+                password.setCustomValidity("Password must be at least 8 characters.");
+            }else if (password.validity.patternMismatch) {
+                password.setCustomValidity("Password must include uppercase, lowercase, and a number.");
+            }else {
+                password.setCustomValidity("");
             }
             break;
 
@@ -99,12 +99,13 @@ function validateField(input) {
     if (spanError) {
         spanError.textContent = input.validationMessage;
         //  Return true/false depending on field validity
-        return input.checkVisibility();
+        return input.checkValidity();
     }
 } // function ends
 
 // Form submit
 customForm.addEventListener("submit", function (e) {
+    console.log("Submit handler is running! Preventing default..."); // Add this line
 
     e.preventDefault();
 
@@ -116,11 +117,13 @@ customForm.addEventListener("submit", function (e) {
     const firstInvalidField = [userName, email, password, confirmPassword].find(input => !input.checkValidity());
 
     if (firstInvalidField) {
+
         // Focus first invalid field
         firstInvalidField.focus()
     }
     else {
         //save username and reset the form
+
         localStorage.setItem("username", userName.value );
         alert("Registration successful!");
         customForm.reset();

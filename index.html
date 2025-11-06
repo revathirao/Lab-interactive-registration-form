@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="styles.css">
+  <script defer src = "index.js"></script>
   <title>Interactive Registration Form</title>
 </head>
 <body>
@@ -25,7 +26,6 @@
       <div class="form-group">
         <label for="password">Password:</label>
         <input type="password" id="password" required minlength="8"pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$"  name="password">
-        <small>Password must be at least 8 characters long, include an uppercase letter, a lowercase letter, and a number.</small>
         <span class="error-message" id="passwordError"></span>
       </div>
 
@@ -38,6 +38,5 @@
       <button type="submit">Register</button>
     </form>
   </div>
-  <script src="script.js"></script>
 </body>
 </html>
