@@ -99,7 +99,7 @@ function validateField(input) {
 
 // Form submit
 customForm.addEventListener("submit", function (e) {
-    console.log("Submit handler is running! Preventing default..."); // Add this line
+    console.log("Submit handler is running! Preventing default..."); 
 
     e.preventDefault(); 
 
