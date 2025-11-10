@@ -39,7 +39,7 @@ function validateField(input) {
         case "username":
 
             if (input.validity.valueMissing) {
-                input.setCustomValidity("User Name is required field")
+                input.setCustomValidity("User Name is requi  field")
             } else if (input.validity.patternMismatch) {
                 input.setCustomValidity("Only alphabets numbers and underscores allowed")
             } else if (input.validity.tooShort) {
@@ -92,6 +92,8 @@ function validateField(input) {
     //  Display the current validation message in the corresponding <span>
     if (spanError) {
         spanError.textContent = input.validationMessage;
+
+
         //  Return true/false depending on field validity
         return input.checkValidity();
     }
@@ -99,9 +101,9 @@ function validateField(input) {
 
 // Form submit
 customForm.addEventListener("submit", function (e) {
-    console.log("Submit handler is running! Preventing default..."); 
+    console.log("Submit handler is running! Preventing default...");
 
-    e.preventDefault(); 
+    e.preventDefault();
 
     // Duplicate username check
     const existingUsername = localStorage.getItem('username');
